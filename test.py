@@ -15,5 +15,9 @@ tuy,tux = tu
 print(tux)
 print(tuy)
 """
+"""
 a = np.array([5,4,3,2,1,1,1,5,5,7])
 print(np.argmin(a))
+"""
+a = np.array([[1,2,3,4],[5,6,7,8]])
+print(a[:,1:-1])
