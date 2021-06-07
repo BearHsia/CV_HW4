@@ -7,7 +7,7 @@ def computeDisp(Il, Ir, max_disp):
     #labels = np.zeros((h, w), dtype=np.float32)
     Il = Il.astype(np.float32)
     Ir = Ir.astype(np.float32)
-    pad_num = 6
+    pad_num = 2
     # >>> Cost Computation
     # TODO: Compute matching cost
     # [Tips] Census cost = Local binary pattern -> Hamming distance
@@ -49,9 +49,9 @@ def computeDisp(Il, Ir, max_disp):
     # >>> Cost Aggregation
     # TODO: Refine the cost according to nearby costs
     # [Tips] Joint bilateral filter (for the cost of each disparty)
-    JBF_s = 5
-    JBF_d = 4*JBF_s
-    JBF_c = 0.1
+    JBF_s = 10
+    JBF_d = -1
+    JBF_c = 5
     
     for disp in range(max_disp):
         cost_box[:,:,:,disp] = xip.jointBilateralFilter(Il, cost_box[:,:,:,disp], JBF_d, JBF_c, JBF_s)
@@ -119,7 +119,7 @@ def computeDisp(Il, Ir, max_disp):
     
     # Weighted median filtering
     Il_gray = cv2.cvtColor(Il,cv2.COLOR_BGR2GRAY).astype(np.uint8)
-    labels = xip.weightedMedianFilter(Il_gray,left_disparity,7)
+    labels = xip.weightedMedianFilter(Il_gray,left_disparity,r = 10,sigma = 10)
 
 
     return labels.astype(np.uint8)
